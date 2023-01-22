@@ -1,0 +1,171 @@
+{
+  "name": "js-code-runner",
+  "displayName": "JS Code Runner",
+  "description": "Run Javascript Code in the Terminal",
+  "version": "0.0.1",
+  "publisher": "flororaphaell",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "javascript",
+    "js",
+    "code runner",
+    "run code"
+  ],
+  "bugs": {
+    "url": "https://github.com/Floro-Raphaell/JS-Code-Runner/issues",
+    "email": "flororaphaellbautista@gmail.com"
+  },
+  "homepage": "https://github.com/Floro-Raphaell/JS-Code-Runner/blob/main/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Floro-Raphaell/JS-Code-Runner.git"
+  },
+  "sponsor": {
+    "url": "https://www.paypal.com/paypalme/flororaphaell5464"
+  },
+  "activationEvents": [
+    "onLanguage:javascript"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "js-code-runner.run",
+        "title": "Run JavaScript Code",
+        "icon": "$(play)",
+        "category": "js-code-runner"
+      },
+      {
+        "command": "js-code-runner.stop",
+        "title": "Stop Running JavaScript Code",
+        "icon": "$(debug-stop)",
+        "category": "js-code-runner"
+      },
+      {
+        "command": "js-code-runner.restart",
+        "title": "Restart Running JavaScript Code",
+        "icon": "$(debug-restart)",
+        "category": "js-code-runner"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "when": "!config.js-code-runner.runInTerminal && config.js-code-runner.showRunIcon && editorLangId == 'javascript' && !js-code-runner.isRunning",
+          "command": "js-code-runner.run",
+          "group": "navigation"
+        },
+        {
+          "when": "!config.js-code-runner.runInTerminal && config.js-code-runner.showRestartIcon && editorLangId == 'javascript' && js-code-runner.isRunning",
+          "command": "js-code-runner.restart",
+          "group": "navigation"
+        },
+        {
+          "when": "config.js-code-runner.runInTerminal && config.js-code-runner.showRunIcon && editorLangId == 'javascript'",
+          "command": "js-code-runner.run",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "!config.js-code-runner.runInTerminal && config.js-code-runner.showStopIcon && editorLangId == 'javascript' && js-code-runner.isRunning",
+          "command": "js-code-runner.stop",
+          "group": "navigation"
+        },
+        {
+          "when": "config.js-code-runner.runInTerminal && config.js-code-runner.showStopIcon && editorLangId == 'javascript'",
+          "command": "js-code-runner.stop",
+          "group": "navigation"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "javascript",
+        "aliases": [
+          "Javascript"
+        ],
+        "extensions": [
+          ".js"
+        ],
+        "configuration": "./js-language-configuration.json"
+      }
+    ],
+    "configuration": [
+      {
+        "type": "object",
+        "title": "JS Code Runner Configuration",
+        "properties": {
+          "js-code-runner.showRunIcon": {
+            "type": "boolean",
+            "default": true,
+            "description": "Wether to show Run Code icon in the title bar",
+            "scope": "resource"
+          },
+          "js-code-runner.showStopIcon": {
+            "type": "boolean",
+            "default": true,
+            "description": "Wether to show Stop Running Code icon in the title bar",
+            "scope": "resource"
+          },
+          "js-code-runner.showRestartIcon": {
+            "type": "boolean",
+            "default": true,
+            "description": "Wether to show Restart Running Code icon in the title bar",
+            "scope": "resource"
+          },
+          "js-code-runner.executor": {
+            "type": "string",
+            "default": "node",
+            "description": "The default executor String for running the JavaScript Code in the Terminal",
+            "scope": "resource"
+          },
+          "js-code-runner.clearPreviousOutput": {
+            "type": "boolean",
+            "default": false,
+            "description": "Wether or not to clear previous output",
+            "scope": "resource"
+          },
+          "js-code-runner.runInTerminal": {
+            "type": "boolean",
+            "default": false,
+            "description": "Wether to run in the terminal or the output tab",
+            "scope": "resource"
+          }
+        }
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "js-code-runner.run",
+        "key": "Ctrl+Alt+Enter"
+      },
+      {
+        "command": "js-code-runner.stop",
+        "key": "Ctrl+shift+Enter"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.70.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3"
+  }
+}
